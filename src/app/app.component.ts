@@ -16,11 +16,11 @@ export class AppComponent {
 
   addRestaurante(newRestaurante:any)
   {
-    console.log(newRestaurante.diasAbierto);
+    //console.log(newRestaurante.diasAbierto);
     //console.log(this.listaRestaurantes);
     let numberV:number=newRestaurante.valoracion;
     let newR = new Restaurante(newRestaurante.nombre, newRestaurante.desc, newRestaurante.inauguracion, newRestaurante.diasAbierto, newRestaurante.tipoComida, numberV, newRestaurante.foto);
     this.listaRestaurantes.push(newR);
-    //console.log(this.listaRestaurantes);
+    console.log(this.listaRestaurantes);
   }
 }

@@ -1,1 +1,9 @@
-<p>star-rate works!</p>
+<div class="rate" [ngClass]="inputFunctional==false?'disabled':'enabled'" *ngIf="inputFunctional">
+    <ng-container *ngFor="let actives of [0,1,2,3,4]; let i=index">
+        <input [(ngModel)]="setValoracion" type="radio" value="{{5-i}}" name="rate" id="v{{5-i}}" >
+        <label  class="star" [ngClass]="5-i<=showRate?'active':'inactive'" title="text" (click)="emitValoracion(5-i)"></label>
+    </ng-container>
+</div>
+<div class="rate" [ngClass]="inputFunctional==false?'disabled':'enabled'" *ngIf="!inputFunctional">
+    <label class="star" *ngFor="let actives of [0,1,2,3,4]; let i=index" [ngClass]="5-i<=showRate?'active':'inactive'" title="text"></label>
+</div>

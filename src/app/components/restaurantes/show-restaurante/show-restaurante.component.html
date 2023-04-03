@@ -1,1 +1,8 @@
-<p>show-restaurante works!</p>
+<div class="contenedor componente">
+    <div class="contenedor-comp">
+        <h1>Lista de Restaurantes</h1>
+        <section class="flex-container">
+            <app-card-restaurante *ngFor="let restaurante of listaRestaurantes" [restaurante]="restaurante"></app-card-restaurante>
+        </section>
+    </div>
+</div>

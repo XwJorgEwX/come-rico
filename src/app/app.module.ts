@@ -7,6 +7,7 @@ import { ShowRestauranteComponent } from './components/restaurantes/show-restaur
 import { CreateRestauranteComponent } from './components/restaurantes/create-restaurante/create-restaurante.component';
 import { CardRestauranteComponent } from './components/restaurantes/card-restaurante/card-restaurante.component';
 import { StarRateComponent } from './shared/components/star-rate/star-rate.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { StarRateComponent } from './shared/components/star-rate/star-rate.compo
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

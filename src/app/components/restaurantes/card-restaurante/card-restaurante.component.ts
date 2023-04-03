@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Restaurante } from 'src/app/models/restaurante.model';
 
 @Component({
   selector: 'app-card-restaurante',
@@ -7,4 +8,5 @@ import { Component } from '@angular/core';
 })
 export class CardRestauranteComponent {
 
+  @Input() restaurante!: Restaurante;
 }

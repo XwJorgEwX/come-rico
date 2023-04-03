@@ -1,1 +1,7 @@
-<p>card-restaurante works!</p>
+<div class="restaurant-card" [ngClass]="restaurante?.valoracion < 4 ? 'bottom-rated': 'top-rated'">
+    <h3 [ngClass]="restaurante?.valoracion < 4 ? 'bottom-rated': 'top-rated'">{{restaurante?.nombre}}</h3>
+    <img class="fotoRestaurante" src="{{restaurante?.foto}}">
+    <p class="desc">{{restaurante?.desc}}</p>
+    <p>Inaugurado el {{restaurante?.inauguracion | date: 'dd/MM/yyyy'}}</p>
+    <app-star-rate [inputFunctional]=false [showRate]=restaurante?.valoracion></app-star-rate>
+</div>
