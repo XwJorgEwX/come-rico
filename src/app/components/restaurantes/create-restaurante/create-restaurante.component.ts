@@ -10,7 +10,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./create-restaurante.component.css']
 })
 export class CreateRestauranteComponent {
-  @Output() newRestauranteEvent = new EventEmitter<{ nombre:string, desc:string, inauguracion:string, diasAbierto:string[], tipoComida:string, valoracion:number, foto:string }>();
+  @Output() newRestauranteEvent = new EventEmitter<Restaurante>();
   @ViewChild('inputFile', { static: false })myInputVariable!: ElementRef;
 
   selectComida = ["Italiana", "Asiatica", "Hamburgueseria"];
@@ -53,15 +53,9 @@ export class CreateRestauranteComponent {
       this.foto="assets/default.png";
     }
 
-    this.newRestauranteEvent.emit({
-      nombre:this.nombre, 
-      desc:this.desc, 
-      inauguracion:this.inauguracion, 
-      diasAbierto:this.diasAbierto, 
-      tipoComida:this.tipoComida, 
-      valoracion:this.valoracion, 
-      foto:this.foto
-    });
+    this.newRestauranteEvent.emit(
+      new Restaurante(this.nombre, this.desc, this.inauguracion, this.diasAbierto, this.tipoComida, this.valoracion, this.foto)
+      );
   }
 
   catchFile(event:any){
@@ -96,7 +90,7 @@ export class CreateRestauranteComponent {
     }
     if(dateForm > this.today){
       restauranteForm.controls['inauguracion'].setErrors({'max-date': true});
-      console.log(restauranteForm.controls);
+      //console.log(restauranteForm.controls);
       return;
     }
     if(this.valoracion == 0 || this.valoracion == -1){
@@ -123,7 +117,7 @@ export class CreateRestauranteComponent {
   }
 
   addNewRate(newRate:number){
-    console.log(newRate);
+    //console.log(newRate);
     this.valoracion=newRate;
   }
 }

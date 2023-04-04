@@ -3,7 +3,7 @@
     <h1>Crear nuevo restaurante</h1>
     <form #restauranteForm="ngForm" (ngSubmit)="onSubmit(restauranteForm)">
         <label class="label-text">Nombre del restaurante</label>
-        <input type="text" name="nombre" id="nombre" [(ngModel)]="nombre" required maxlength="20" #nombreControl="ngModel">
+        <input type="text" name="nombre" id="nombre" [(ngModel)]="nombre" [ngClass]="nombreControl.invalid && nombreControl.touched ? 'input-invalid': 'input-valid'" required maxlength="20" #nombreControl="ngModel">
         <span *ngIf="nombreControl.invalid && nombreControl.touched" class="errorValidation">
             <span *ngIf="nombreControl.errors?.['required']">Campo obligatorio</span>
             <span *ngIf="nombreControl.errors?.['maxlength']">Máximo de caracteres excedido (20)</span>
@@ -12,7 +12,7 @@
         <label class="label-text">Días abierto</label>
         <div appMinChecked class="flex-container">
             <div class="col" *ngFor="let i of checkDaysObjects">
-                <p>{{i.day}}</p>
+                <label class="label-text">{{i.day}}</label>
                 <input type="checkbox" name="check{{i.day}}" [(ngModel)]="i.selected">
             </div>
         </div>
@@ -20,7 +20,7 @@
         <div class="flex-container">
             <div class="col">
                 <label class="label-text">Tipo de comida</label>
-                <select class="form-select" name="tipoComida" [(ngModel)]="tipoComida" required #tipoComidaControl="ngModel">
+                <select class="form-select" name="tipoComida" [(ngModel)]="tipoComida" [ngClass]="tipoComidaControl.invalid && tipoComidaControl.touched ? 'input-invalid': 'input-valid'" required #tipoComidaControl="ngModel">
                     <option value="" selected disabled hidden>Seleccione el tipo de comida</option>
                     <option *ngFor="let i of selectComida" [value]="i">{{i}}</option>
                 </select>
@@ -30,7 +30,7 @@
                 <br/>
                 <label class="label-text">Inauguración</label>
                 <br/>
-                <input type="date" max="{{today | date: 'yyyy-MM-dd'}}" name="inauguracion" [(ngModel)]="inauguracion" required #inauguracionControl="ngModel">
+                <input type="date" max="{{today | date: 'yyyy-MM-dd'}}" name="inauguracion" [(ngModel)]="inauguracion" [ngClass]="inauguracionControl.errors?.['required'] && inauguracionControl.touched || inauguracion > (today |  date: 'yyyy-MM-dd') ? 'input-invalid': 'input-valid'" required #inauguracionControl="ngModel">
                     <br/>
                     <span class="errorValidation" *ngIf="inauguracionControl.errors?.['required'] && inauguracionControl.touched">
                         Campo obligatorio
@@ -42,7 +42,7 @@
             </div>
             <div class="col">
                 <label class="label-text">Descripción</label>
-                <textarea name="description" [(ngModel)]="desc" required maxlength="50" #descripcionControl="ngModel"></textarea>
+                <textarea name="description" [(ngModel)]="desc" [ngClass]="descripcionControl.invalid && descripcionControl.touched ? 'input-invalid': 'input-valid'" required maxlength="50" #descripcionControl="ngModel"></textarea>
                 <span *ngIf="descripcionControl.invalid && descripcionControl.touched" class="errorValidation">
                     <span *ngIf="descripcionControl.errors?.['required']">Campo obligatorio</span>
                     <span *ngIf="descripcionControl.errors?.['maxlength']">Máximo de caracteres excedido (50)</span>
@@ -58,9 +58,12 @@
         </div>
         
         <app-star-rate [inputFunctional]=true [showRate]="valoracion" (newRateEvent)="addNewRate($event)"></app-star-rate>
-        <span class="errorValidation" *ngIf="valoracion==0">
-            Campo obligatorio
-        </span>
+        <div class="center">
+            <span class="errorValidation center" *ngIf="valoracion==0">
+                Campo obligatorio
+            </span>
+        </div>
+        
 
         <div class="flex-container">
             <div class="col">

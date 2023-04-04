@@ -14,13 +14,10 @@ export class AppComponent {
     new Restaurante("Aires Burger", "Hamburguesería argentina", "2020/02/13", ['lunes', 'martes', 'miercoles', 'jueves', 'viernes'], "hamburgueseria", 5, "assets/aires.jpg")
   ];
 
-  addRestaurante(newRestaurante:any)
+  addRestaurante(newRestaurante:Restaurante)
   {
-    //console.log(newRestaurante.diasAbierto);
-    //console.log(this.listaRestaurantes);
-    let numberV:number=newRestaurante.valoracion;
-    let newR = new Restaurante(newRestaurante.nombre, newRestaurante.desc, newRestaurante.inauguracion, newRestaurante.diasAbierto, newRestaurante.tipoComida, numberV, newRestaurante.foto);
-    this.listaRestaurantes.push(newR);
+    //let newR = new Restaurante(newRestaurante.nombre, newRestaurante.desc, newRestaurante.inauguracion, newRestaurante.diasAbierto, newRestaurante.tipoComida, newRestaurante.valoracion, newRestaurante.foto);
+    this.listaRestaurantes.push(newRestaurante);
     console.log(this.listaRestaurantes);
   }
 }

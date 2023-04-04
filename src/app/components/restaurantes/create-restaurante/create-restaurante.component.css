@@ -26,6 +26,7 @@
 }
 
 .label-text{
+    width: 100%;
     margin-top:10px;
     color: #f18809;
 }
@@ -207,4 +208,8 @@ input:focus{
 
 h1{
     color: #222831;
+}
+
+.input-invalid{
+  border-bottom-color: red !important;
 }
