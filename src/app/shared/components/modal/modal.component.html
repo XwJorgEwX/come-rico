@@ -1,0 +1,12 @@
+<ng-container *ngIf="show==true">
+    <div class="modal-container">
+        <div class="modal-content">
+            <div class="content">
+                <button class="close" (click)="hideModal()">x</button>
+                <ng-content>
+
+                </ng-content>
+            </div>
+        </div>
+    </div>
+</ng-container>

@@ -2,7 +2,7 @@
     <div class="contenedor-comp">
         <h1>Lista de Restaurantes</h1>
         <section class="flex-container">
-            <app-card-restaurante *ngFor="let restaurante of listaRestaurantes" [restaurante]="restaurante"></app-card-restaurante>
+            <app-card-restaurante *ngFor="let restaurante of listaRestaurantes; index as i" [restaurante]="restaurante" [index]="i" (openModRestauranteEvent)="openModRestaurante($event)" (deleteRestauranteEvent)="deleteRestaurante($event)"></app-card-restaurante>
         </section>
     </div>
 </div>

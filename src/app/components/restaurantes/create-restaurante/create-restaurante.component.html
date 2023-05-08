@@ -1,6 +1,7 @@
 <div class="contenedor componente">
     <div class="contenedor-comp">
-    <h1>Crear nuevo restaurante</h1>
+    <h1 *ngIf="modMode==false">Crear nuevo restaurante</h1>
+    <h1 *ngIf="modMode==true">Modificar restaurante</h1>
     <form #restauranteForm="ngForm" (ngSubmit)="onSubmit(restauranteForm)">
         <label class="label-text">Nombre del restaurante</label>
         <input type="text" name="nombre" id="nombre" [(ngModel)]="nombre" [ngClass]="nombreControl.invalid && nombreControl.touched ? 'input-invalid': 'input-valid'" required maxlength="20" #nombreControl="ngModel">
@@ -30,7 +31,7 @@
                 <br/>
                 <label class="label-text">Inauguración</label>
                 <br/>
-                <input type="date" max="{{today | date: 'yyyy-MM-dd'}}" name="inauguracion" [(ngModel)]="inauguracion" [ngClass]="inauguracionControl.errors?.['required'] && inauguracionControl.touched || inauguracion > (today |  date: 'yyyy-MM-dd') ? 'input-invalid': 'input-valid'" required #inauguracionControl="ngModel">
+                <input type="date" max="{{today | date: 'yyyy-MM-dd'}}" name="inauguracion" [ngModel]="inauguracion | date:'yyyy-MM-dd'" (ngModelChange)="inauguracion = $event" [ngClass]="inauguracionControl.errors?.['required'] && inauguracionControl.touched || inauguracion > (today |  date: 'yyyy-MM-dd') ? 'input-invalid': 'input-valid'" required #inauguracionControl="ngModel">
                     <br/>
                     <span class="errorValidation" *ngIf="inauguracionControl.errors?.['required'] && inauguracionControl.touched">
                         Campo obligatorio
@@ -70,7 +71,8 @@
                 <button type="reset" (click)="clearForm()">Limpiar</button>
             </div>
             <div class="col">
-                <button type="submit">Crear</button>
+                <button *ngIf="modMode==false" type="submit">Crear</button>
+                <button *ngIf="modMode==true" type="submit">Actualizar</button>
             </div>
         </div>
         

@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { NgModule } from '@angular/core';
 import { Restaurante } from 'src/app/models/restaurante.model';
 import { FormsModule } from '@angular/forms';
@@ -9,11 +9,15 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   templateUrl: './create-restaurante.component.html',
   styleUrls: ['./create-restaurante.component.css']
 })
-export class CreateRestauranteComponent {
+export class CreateRestauranteComponent implements OnInit {
   @Output() newRestauranteEvent = new EventEmitter<Restaurante>();
-  @ViewChild('inputFile', { static: false })myInputVariable!: ElementRef;
+  @Input() modMode:boolean=false;
+  @Input() id!: number;
+  @Input() modRestaurante!: Restaurante;
+  @ViewChild('inputFile', { static: false }) myInputVariable!: ElementRef;
+  //@ViewChild('inauguracionControl', { static: false }) inputInauguracion!: ElementRef<HTMLInputElement>;
 
-  selectComida = ["Italiana", "Asiatica", "Hamburgueseria"];
+  selectComida = ["Variado", "Tapería", "Italiana", "Asiatica", "Hamburgueseria"];
 
   checkDaysObjects = [
     {day : "lunes", selected : false},
@@ -35,13 +39,6 @@ export class CreateRestauranteComponent {
   today = new Date();
   filename="";
 
-  /*
-  restauranteForm=new FormGroup({
-    nombreControl: new FormControl(this.nombre, [
-      Validators.minLength(4)
-    ])
-  })
-  */
   crearRestaurante(){
     for(let day of this.checkDaysObjects){
       if(day.selected){
@@ -54,7 +51,19 @@ export class CreateRestauranteComponent {
     }
 
     this.newRestauranteEvent.emit(
-      new Restaurante(this.nombre, this.desc, this.inauguracion, this.diasAbierto, this.tipoComida, this.valoracion, this.foto)
+      new Restaurante(-1, this.nombre, this.desc, this.inauguracion, this.diasAbierto, this.tipoComida, this.valoracion, this.foto)
+      );
+  }
+
+  modificarRestaurante(){
+    this.diasAbierto = [];
+    for(let day of this.checkDaysObjects){
+      if(day.selected){
+        this.diasAbierto.push(day.day);
+      }
+    }
+    this.newRestauranteEvent.emit(
+      new Restaurante(-1, this.nombre, this.desc, this.inauguracion, this.diasAbierto, this.tipoComida, this.valoracion, this.foto)
       );
   }
 
@@ -99,25 +108,54 @@ export class CreateRestauranteComponent {
       return;
     }
 
-    this.crearRestaurante();
+    if(this.modMode==false){
+      this.crearRestaurante();
 
-    this.nombre="";
-    this.desc="";
-    this.inauguracion="";
-    this.diasAbierto=[];
-    for(let day of this.checkDaysObjects){
-      day.selected = false;
+      this.nombre="";
+      this.desc="";
+      this.inauguracion="";
+      this.diasAbierto=[];
+      for(let day of this.checkDaysObjects){
+        day.selected = false;
+      }
+      this.valoracion=-1;
+      this.foto = "";
+      this.filename="";
+      this.myInputVariable.nativeElement.value="";
+
+      restauranteForm.reset();
     }
-    this.valoracion=-1;
-    this.foto = "";
-    this.filename="";
-    this.myInputVariable.nativeElement.value="";
-
-    restauranteForm.reset();
+    else if(this.modMode==true){
+      this.modificarRestaurante();
+    }
   }
 
   addNewRate(newRate:number){
     //console.log(newRate);
     this.valoracion=newRate;
+  }
+
+
+  ngOnInit(){
+    if(this.modMode==true){
+
+      this.nombre=this.modRestaurante.nombre;
+      this.desc=this.modRestaurante.desc;
+      this.inauguracion=this.modRestaurante.inauguracion;
+      this.diasAbierto=this.modRestaurante.diasAbierto;
+      this.valoracion=this.modRestaurante.valoracion;
+      this.foto=this.modRestaurante.foto;
+      this.tipoComida=this.modRestaurante.tipoComida;
+
+      for(let day of this.checkDaysObjects){
+        if(this.modRestaurante.diasAbierto.includes(day.day)){
+          day.selected=true;
+        }
+      }
+    }
+  }
+
+  constructor(){
+
   }
 }

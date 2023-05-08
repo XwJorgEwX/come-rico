@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Restaurante } from './models/restaurante.model';
+import { ServicioRestaurantesService } from './services/servicio-restaurantes.service';
+import { ModalComponent } from './shared/components/modal/modal.component';
 
 @Component({
   selector: 'app-root',
@@ -9,15 +11,70 @@ import { Restaurante } from './models/restaurante.model';
 export class AppComponent {
   title = 'comeRico';
 
-  listaRestaurantes:Restaurante[]=[
-    new Restaurante("Me Too", "Buffet libre asiatico", "2018/05/20", ['lunes', 'martes', 'miercoles', 'jueves', 'viernes'], "asiatico", 4, "assets/metoo.jpg"),
-    new Restaurante("Aires Burger", "Hamburguesería argentina", "2020/02/13", ['lunes', 'martes', 'miercoles', 'jueves', 'viernes'], "hamburgueseria", 5, "assets/aires.jpg")
-  ];
+  ngOnInit(){
+    //let list$ = await this.servicioRestaurante.getLista().toPromise;
+    this.getLista();
+  }
+
+  @ViewChild('modal') modal!: ModalComponent;
+
+  idSelected!: number;
+  modSelected!: Restaurante;
+
+  listaRestaurantes:Restaurante[] = [];
+
+  getLista():void{
+    this.servicioRestaurante.getLista()
+      .subscribe( x => {
+        console.log(x);
+        this.listaRestaurantes = x;
+    });
+  }
 
   addRestaurante(newRestaurante:Restaurante)
   {
-    //let newR = new Restaurante(newRestaurante.nombre, newRestaurante.desc, newRestaurante.inauguracion, newRestaurante.diasAbierto, newRestaurante.tipoComida, newRestaurante.valoracion, newRestaurante.foto);
-    this.listaRestaurantes.push(newRestaurante);
-    console.log(this.listaRestaurantes);
+    let id:number;
+    let i = this.listaRestaurantes.length - 1;
+    //console.log(i);
+    if(i < 0){
+      id = 0;
+    }
+    else{
+      id = this.listaRestaurantes[i].id + 1;
+    }
+
+    //console.log(newRestaurante.id);
+    //console.log(id);
+    newRestaurante.setId = id;
+
+    //console.log(newRestaurante.id);
+    this.servicioRestaurante.addRestaurante(newRestaurante);
+  }
+
+  modRestaurante(modRestaurante:Restaurante)
+  {
+    modRestaurante.id = this.idSelected;
+    this.servicioRestaurante.modRestaurante(this.idSelected, modRestaurante);
+    this.modal.hideModal();
+  }
+
+  openModRestaurante(id:number){
+    this.idSelected = id;
+    const mod = this.servicioRestaurante.getRestaurante(this.idSelected);
+    this.modal.showModal();
+    if(mod){
+      this.modSelected = mod;
+    }else{
+      alert("Error al cargar los datos del restaurante.");
+    }
+  }
+
+  deleteRestaurante(id:number){
+    this.idSelected = id;
+    this.servicioRestaurante.deleteRestaurante(this.idSelected);
+  }
+
+  constructor(private servicioRestaurante:ServicioRestaurantesService){
+
   }
 }

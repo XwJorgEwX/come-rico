@@ -4,4 +4,17 @@
     <p class="desc">{{restaurante?.desc}}</p>
     <p>Inaugurado el {{restaurante?.inauguracion | date: 'dd/MM/yyyy'}}</p>
     <app-star-rate [inputFunctional]=false [showRate]=restaurante?.valoracion></app-star-rate>
+    <div class="flex-container">
+        <div class="col">
+            <button class="del" (click)="deleteRestaurante(restaurante.id)">Eliminar</button>
+        </div>
+        <div class="col">
+            <button class="mod" (click)="openMod(restaurante.id)">Modificar</button>
+        </div>
+    </div>
 </div>
+
+<!--<app-modal #modal>
+    <app-create-restaurante *ngIf="modal.show==true" [index]="index" [modMode]=true></app-create-restaurante>
+</app-modal>
+-->

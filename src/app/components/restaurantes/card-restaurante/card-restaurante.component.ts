@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Restaurante } from 'src/app/models/restaurante.model';
 
 @Component({
@@ -9,4 +9,18 @@ import { Restaurante } from 'src/app/models/restaurante.model';
 export class CardRestauranteComponent {
 
   @Input() restaurante!: Restaurante;
+  @Output() deleteRestauranteEvent = new EventEmitter<number>();
+  @Output() openModRestauranteEvent = new EventEmitter<number>();
+
+  deleteRestaurante(id:number){
+    this.deleteRestauranteEvent.emit(id);
+  }
+
+  openMod(id:number){
+    this.openModRestauranteEvent.emit(id);
+  }
+
+  constructor(){
+
+  }
 }

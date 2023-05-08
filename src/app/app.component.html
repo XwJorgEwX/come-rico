@@ -1,5 +1,17 @@
 <h1>ComeRico</h1>
 <div class="contenedor">
-  <app-create-restaurante (newRestauranteEvent)="addRestaurante($event)"></app-create-restaurante>
-  <app-show-restaurante [listaRestaurantes]="listaRestaurantes"></app-show-restaurante>
+  <div class="contenedor"> 
+    <app-create-restaurante (newRestauranteEvent)="addRestaurante($event)"></app-create-restaurante>
+  </div>
+  <div class="contenedor">
+    <app-show-restaurante
+      [listaRestaurantes]="listaRestaurantes"
+      (openModRestauranteEvent)="openModRestaurante($event)"
+      (deleteRestauranteEvent)="deleteRestaurante($event)">
+    </app-show-restaurante>
+  </div>
+  
+  <app-modal #modal>
+    <app-create-restaurante *ngIf="modal.show==true" [id]="idSelected" [modRestaurante]="modSelected" [modMode]=true (newRestauranteEvent)="modRestaurante($event)"></app-create-restaurante>
+  </app-modal>
 </div>

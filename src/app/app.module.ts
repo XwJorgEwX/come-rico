@@ -8,6 +8,8 @@ import { CreateRestauranteComponent } from './components/restaurantes/create-res
 import { CardRestauranteComponent } from './components/restaurantes/card-restaurante/card-restaurante.component';
 import { StarRateComponent } from './shared/components/star-rate/star-rate.component';
 import { FormsModule } from '@angular/forms';
+import { ServicioRestaurantesService } from './services/servicio-restaurantes.service';
+import { ModalComponent } from './shared/components/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -15,14 +17,17 @@ import { FormsModule } from '@angular/forms';
     ShowRestauranteComponent,
     CreateRestauranteComponent,
     CardRestauranteComponent,
-    StarRateComponent
+    StarRateComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule
   ],
-  providers: [],
+  providers: [
+    ServicioRestaurantesService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
